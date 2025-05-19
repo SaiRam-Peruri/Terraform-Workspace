@@ -15,16 +15,16 @@ variable "vpc_cidr" {
 
 variable "private_subnets" {
   default = {
-    "private_subnet_1" = 1
-    "private_subnet_2" = 2
-    "private_subnet_3" = 3
+    "terraform-private-subnet-1" = 1
+    "terraform-private-subnet-2" = 2
+    "terraform-private-subnet-3" = 3
   }
 }
 
 variable "public_subnets" {
   default = {
-    "public_subnet_1" = 1
-    "public_subnet_2" = 2
-    "public_subnet_3" = 3
+    "terraform-public-subnet-1" = 1
+    "terraform-public-subnet-2" = 2
+    "terraform-public-subnet-3" = 3
   }
 }

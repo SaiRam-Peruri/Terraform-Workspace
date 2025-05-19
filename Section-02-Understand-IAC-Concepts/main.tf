@@ -55,7 +55,7 @@ resource "aws_route_table" "public_route_table" {
     #nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
-    Name      = "demo_public_rtb"
+    Name      = "terraform-public-rtb"
     Terraform = "true"
   }
 }
@@ -69,7 +69,7 @@ resource "aws_route_table" "private_route_table" {
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
-    Name      = "demo_private_rtb"
+    Name      = "terraform-private-rtb"
     Terraform = "true"
   }
 }
@@ -93,7 +93,7 @@ resource "aws_route_table_association" "private" {
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
   tags = {
-    Name = "demo_igw"
+    Name = "terraform-igw"
   }
 }
 
@@ -102,7 +102,7 @@ resource "aws_eip" "nat_gateway_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.internet_gateway]
   tags = {
-    Name = "demo_igw_eip"
+    Name = "terraform-igw-eip"
   }
 }
 
@@ -110,8 +110,8 @@ resource "aws_eip" "nat_gateway_eip" {
 resource "aws_nat_gateway" "nat_gateway" {
   depends_on    = [aws_subnet.public_subnets]
   allocation_id = aws_eip.nat_gateway_eip.id
-  subnet_id     = aws_subnet.public_subnets["public_subnet_1"].id
+  subnet_id     = aws_subnet.public_subnets["terraform-public-subnet-1"].id
   tags = {
-    Name = "demo_nat_gateway"
+    Name = "terraform-nat-gateway"
   }
 }
