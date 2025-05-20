@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-artifacts-sairam-2025"
+  bucket = "terraform-states-sairam-2025"
 
   tags = {
     Name        = "TerraformBackendStateBucket"
