@@ -27,6 +27,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
+      - name: Terraform Format (bootstrap)
+        run: terraform fmt -recursive
+
       - name: Init without backend
         run: terraform init -backend=false
 
@@ -55,8 +58,25 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
+      - name: Cache Terraform plugins
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.terraform.d/plugin-cache
+            .terraform/plugins
+          key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
       - name: Terraform Init (with backend)
         run: terraform init -reconfigure
+
+      # Optional: Select workspace based on branch name
+      # - name: Select Terraform workspace
+      #   run: terraform workspace select ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
 
       - name: Terraform Validate
         run: terraform validate
