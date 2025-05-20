@@ -26,31 +26,36 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Initialize Terraform
+      # Bootstrap backend first
+      - name: Initialize Terraform (Bootstrap)
+        working-directory: ./bootstrap
         run: terraform init
-        # working-directory: Terraform-Workspace
 
-      - name: Validate Terraform
-        run: terraform validate
-        # working-directory: Terraform-Workspace
-
-      - name: Terraform Plan
-        run: terraform plan
-        # working-directory: Terraform-Workspace
-
-      - name: Terraform Apply
+      - name: Apply Terraform (Bootstrap)
+        working-directory: ./bootstrap
         run: terraform apply -auto-approve
-        # working-directory: Terraform-Workspace
+
+      # Now run main terraform using the backend created above
+      - name: Initialize Terraform (Main)
+        run: terraform init
+        # Default working directory is root where backend.tf exists
+
+      - name: Validate Terraform (Main)
+        run: terraform validate
+
+      - name: Terraform Plan (Main)
+        run: terraform plan
+
+      - name: Terraform Apply (Main)
+        run: terraform apply -auto-approve
 
       - name: Export Terraform Output
         run: |
           terraform output -json > terraform_output.json
           aws s3 cp terraform_output.json s3://terraform-artifacts-v2/terraform_output.json
-        # working-directory: Terraform-Workspace
 
       - name: Generate Resource Manifest
         run: |
           terraform state list > resources.txt
           jq -R -s -c 'split("\n") | map(select(length > 0))' resources.txt > resource-manifest.json
           aws s3 cp resource-manifest.json s3://terraform-artifacts-v2/resource-manifest.json
-        # working-directory: Terraform-Workspace
