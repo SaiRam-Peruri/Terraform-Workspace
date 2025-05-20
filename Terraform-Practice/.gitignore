@@ -1,0 +1,29 @@
+# Ignore Terraform working directory
+.terraform/
+
+# Ignore Terraform state files (unless you're using local backend)
+*.tfstate
+*.tfstate.backup
+
+# Ignore Terraform variable files (if they contain secrets)
+*.tfvars
+*.tfvars.json
+
+# Ignore plan output files
+*.tfplan
+
+# Ignore Lambda zip packages (they are created during CI/CD)
+terraform/lambda_function.zip
+
+# Ignore editor/OS-specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore system files
+*.swp
