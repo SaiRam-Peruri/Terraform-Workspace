@@ -1,0 +1,68 @@
+name: Terraform CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+
+      - name: Package Lambda Function
+        run: |
+          echo "Packaging Lambda function..."
+          if [ -d "terraform/lambda_function" ]; then
+            cd terraform/lambda_function
+            zip -r ../lambda_function.zip . \
+              -x "*.dist-info/*" "*.egg-info/*" "__pycache__/*" "*.pyc" "*.pyo" "*.pyd"
+            echo "Lambda function packaged."
+          else
+            echo "Lambda directory not found. Skipping packaging."
+          fi
+
+      - name: Initialize Terraform
+        run: terraform init
+        working-directory: terraform
+
+      - name: Validate Terraform
+        run: terraform validate
+        working-directory: terraform
+
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: terraform
+
+      - name: Export Terraform Output
+        run: |
+          terraform output -json > terraform_output.json
+          aws s3 cp terraform_output.json s3://vubber-terraform-artifacts-v2/terraform_output.json
+        working-directory: terraform
+
+      - name: Generate Resource Manifest
+        run: |
+          terraform state list > resources.txt
+          jq -R -s -c 'split("\n") | map(select(length > 0))' resources.txt > resource-manifest.json
+          aws s3 cp resource-manifest.json s3://vubber-terraform-artifacts-v2/resource-manifest.json
+        working-directory: terraform
