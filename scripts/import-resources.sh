@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-cd terraform
 
 echo "Importing existing DynamoDB tables..."
 for table in Users Videos Translations Logs Transcriptions; do
