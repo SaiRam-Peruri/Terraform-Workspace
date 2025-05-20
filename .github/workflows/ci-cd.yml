@@ -26,18 +26,6 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Package Lambda Function
-        run: |
-          echo "Packaging Lambda function..."
-          if [ -d "terraform/lambda_function" ]; then
-            cd terraform/lambda_function
-            zip -r ../lambda_function.zip . \
-              -x "*.dist-info/*" "*.egg-info/*" "__pycache__/*" "*.pyc" "*.pyo" "*.pyd"
-            echo "Lambda function packaged."
-          else
-            echo "Lambda directory not found. Skipping packaging."
-          fi
-
       - name: Initialize Terraform
         run: terraform init
         # working-directory: Terraform-Workspace
