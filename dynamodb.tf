@@ -1,6 +1,6 @@
 # Provider Configuration
 provider "aws" {
-  region = "us-west-1"  # North California
+  region = "us-west-1" # North California
 }
 
 # DynamoDB Table: Users
@@ -27,19 +27,19 @@ resource "aws_dynamodb_table" "users" {
   }
 
   global_secondary_index {
-    name               = "EmailIndex"
-    hash_key           = "Email"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "EmailIndex"
+    hash_key        = "Email"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   global_secondary_index {
-    name               = "CreatedAtIndex"
-    hash_key           = "CreatedAt"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "CreatedAtIndex"
+    hash_key        = "CreatedAt"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   lifecycle {
@@ -72,19 +72,19 @@ resource "aws_dynamodb_table" "videos" {
   }
 
   global_secondary_index {
-    name               = "UserIdIndex"
-    hash_key           = "UserId"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "UserIdIndex"
+    hash_key        = "UserId"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   global_secondary_index {
-    name               = "CreatedAtIndex"
-    hash_key           = "CreatedAt"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "CreatedAtIndex"
+    hash_key        = "CreatedAt"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   lifecycle {
@@ -113,11 +113,11 @@ resource "aws_dynamodb_table" "translations" {
   }
 
   global_secondary_index {
-    name               = "TargetLanguageIndex"
-    hash_key           = "TargetLanguage"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "TargetLanguageIndex"
+    hash_key        = "TargetLanguage"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   lifecycle {
@@ -150,19 +150,19 @@ resource "aws_dynamodb_table" "logs" {
   }
 
   global_secondary_index {
-    name               = "TimestampIndex"
-    hash_key           = "Timestamp"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "TimestampIndex"
+    hash_key        = "Timestamp"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   global_secondary_index {
-    name               = "VideoIdIndex"
-    hash_key           = "VideoId"
-    projection_type    = "ALL"
-    read_capacity      = 5
-    write_capacity     = 5
+    name            = "VideoIdIndex"
+    hash_key        = "VideoId"
+    projection_type = "ALL"
+    read_capacity   = 5
+    write_capacity  = 5
   }
 
   lifecycle {
