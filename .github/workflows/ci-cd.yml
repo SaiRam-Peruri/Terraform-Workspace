@@ -6,9 +6,12 @@ on:
       - main
 
 jobs:
-  terraform:
-    name: Deploy to AWS
+  bootstrap:
+    name: Bootstrap S3 Backend
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bootstrap
 
     steps:
       - name: Checkout Repository
@@ -23,30 +26,45 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: latest
 
-      # Bootstrap backend first
-      - name: Initialize Terraform (Bootstrap)
-        working-directory: ./bootstrap
-        run: terraform init
+      - name: Init without backend
+        run: terraform init -backend=false
 
-      - name: Apply Terraform (Bootstrap)
-        working-directory: ./bootstrap
+      - name: Apply to create backend bucket
         run: terraform apply -auto-approve
 
-      # Now run main terraform using the backend created above
-      - name: Initialize Terraform (Main)
-        run: terraform init
-        # Default working directory is root where backend.tf exists
+  terraform:
+    name: Deploy Terraform Resources
+    runs-on: ubuntu-latest
+    needs: bootstrap
+    defaults:
+      run:
+        working-directory: .
 
-      - name: Validate Terraform (Main)
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan (Main)
+      - name: Terraform Plan
         run: terraform plan
 
-      - name: Terraform Apply (Main)
+      - name: Terraform Apply
         run: terraform apply -auto-approve
 
       - name: Export Terraform Output
