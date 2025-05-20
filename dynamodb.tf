@@ -1,6 +1,6 @@
 # Provider Configuration
 provider "aws" {
-  region = "us-east-1"  # North California
+  region = "us-west-1"  # North California
 }
 
 # DynamoDB Table: Users
