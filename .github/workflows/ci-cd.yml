@@ -1,9 +1,7 @@
 name: Terraform CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:   # this enables manual triggering
 
 jobs:
   bootstrap:
