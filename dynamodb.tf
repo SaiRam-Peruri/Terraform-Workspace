@@ -1,8 +1,3 @@
-# Provider Configuration
-provider "aws" {
-  region = "us-west-1" # North California
-}
-
 # DynamoDB Table: Users
 resource "aws_dynamodb_table" "users" {
   name           = "Users_v2"
