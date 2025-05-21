@@ -33,6 +33,14 @@ jobs:
       - name: Init without backend
         run: terraform init -backend=false
 
+      - name: Import existing S3 bucket if it exists
+        run: |
+          if aws s3api head-bucket --bucket terraform-states-sairam-2025 2>/dev/null; then
+            terraform import aws_s3_bucket.terraform_state terraform-states-sairam-2025
+          else
+            echo "Bucket does not exist, will create it"
+          fi
+
       - name: Apply to create backend bucket
         run: terraform apply -auto-approve
 
