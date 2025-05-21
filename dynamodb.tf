@@ -82,10 +82,10 @@ resource "aws_dynamodb_table" "videos" {
     write_capacity  = 5
   }
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [read_capacity, write_capacity, billing_mode]
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  #   ignore_changes  = [read_capacity, write_capacity, billing_mode]
+  # }
 }
 
 # DynamoDB Table: Translations
@@ -115,10 +115,10 @@ resource "aws_dynamodb_table" "translations" {
     write_capacity  = 5
   }
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [read_capacity, write_capacity, billing_mode]
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  #   ignore_changes  = [read_capacity, write_capacity, billing_mode]
+  # }
 }
 
 # DynamoDB Table: Logs
@@ -160,10 +160,10 @@ resource "aws_dynamodb_table" "logs" {
     write_capacity  = 5
   }
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [read_capacity, write_capacity, billing_mode]
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  #   ignore_changes  = [read_capacity, write_capacity, billing_mode]
+  # }
 }
 
 # DynamoDB Table: Transcriptions
@@ -193,10 +193,10 @@ resource "aws_dynamodb_table" "transcriptions" {
     write_capacity  = 5
   }
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [read_capacity, write_capacity, billing_mode]
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  #   ignore_changes  = [read_capacity, write_capacity, billing_mode]
+  # }
 }
 
 
