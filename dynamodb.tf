@@ -37,10 +37,10 @@ resource "aws_dynamodb_table" "users" {
     write_capacity  = 5
   }
 
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = [read_capacity, write_capacity, billing_mode]
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  #   ignore_changes  = [read_capacity, write_capacity, billing_mode]
+  # }
 }
 
 # DynamoDB Table: Videos
