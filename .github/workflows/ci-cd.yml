@@ -33,8 +33,8 @@ jobs:
 
       - name: Import existing S3 bucket if it exists
         run: |
-          if aws s3api head-bucket --bucket terraform-states-sairam-2025 2>/dev/null; then
-            terraform import aws_s3_bucket.terraform_state terraform-states-sairam-2025
+          if aws s3api head-bucket --bucket terraform-states-sairam-bucket 2>/dev/null; then
+            terraform import aws_s3_bucket.terraform_state terraform-states-sairam-bucket
           else
             echo "Bucket does not exist, will create it"
           fi
