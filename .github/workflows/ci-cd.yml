@@ -96,10 +96,10 @@ jobs:
       - name: Export Terraform Output to S3
         run: |
           terraform output -json > terraform_output.json
-          aws s3 cp terraform_output.json s3://terraform-artifacts-sairam-2025/terraform_output.json
+          aws s3 cp terraform_output.json s3://terraform-states-sairam-bucket/terraform_output.json
 
       - name: Generate Resource Manifest and Upload to S3
         run: |
           terraform state list > resources.txt
           jq -R -s -c 'split("\n") | map(select(length > 0))' resources.txt > resource-manifest.json
-          aws s3 cp resource-manifest.json s3://terraform-artifacts-sairam-2025/resource-manifest.json
+          aws s3 cp resource-manifest.json s3://terraform-states-sairam-bucket/resource-manifest.json
